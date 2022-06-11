@@ -15,5 +15,4 @@ Zbudowanie oraz dodanie obrazów do repozytorium docker.hub
 
 ![docker-compose-1](/MNzadania/images/docker_compose.PNG)
 ![docker-compose-2](/MNzadania/images/docker_compose_2.PNG)
-![docker-compose-3](/MNzadania/images/docker_compose_3.PNG)
 ![docker-compose-4](/MNzadania/images/docker_compose_view.PNG)
