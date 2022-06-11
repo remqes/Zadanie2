@@ -1,0 +1,95 @@
+version: '3'
+
+services:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+    networks:
+      - backend
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data'
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+
+  nginx:
+    image: "michalnurz/labox:zaddwa-nginx"
+    depends_on:
+      - api
+      - client
+    ports:
+      - '3050:80'
+    networks:
+      - backend
+      - frontend
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+
+  worker:
+    image: michalnurz/labox:zaddwa-worker
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - NODE_OPTIONS=--openssl-legacy-provider
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  client:
+    image: michalnurz/labox:zaddwa-client
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  api:
+    image: "michalnurz/labox:zaddwa-server"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - backend
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+
+  redis:
+    image: "redis:latest"
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+
+
+networks:
+  backend:
+  frontend:
+
+volumes:
+  dbdata: 

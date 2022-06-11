@@ -1,0 +1,66 @@
+version: '3'
+services:
+
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data'
+    networks:
+      - backend
+
+  redis:
+    image: 'redis:latest'
+    networks:
+      - backend
+
+  nginx:
+    depends_on:
+      - api
+      - client
+    restart: always
+    image: michalnurz/labox:zaddwa-nginx
+    ports:
+      - '3050:80'
+    networks:
+      - backend
+      - frontend
+
+  api:
+    image: michalnurz/labox:zaddwa-server
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - backend
+
+  client:
+    image: michalnurz/labox:zaddwa-client
+    networks:
+      - backend
+
+  worker:
+    image: michalnurz/labox:zaddwa-worker
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - NODE_OPTIONS=--openssl-legacy-provider
+    networks:
+      - backend
+
+volumes: 
+  dbdata:
+networks:
+  frontend:
+  backend:
