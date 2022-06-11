@@ -19,3 +19,7 @@ Dokonane modyfikacje względem bazowej aplikacji:
     - Dockerfile.dev zawiera dodatkowo informację o wolumenie oraz port na jakim został wystawiony na zewnątrz, a Dockerfile produkcyjny zyskał tylko numer portu.
 - katalog nginx:
     - do obu plików Dockerfile dodany został numer portu
+
+[README_dev.md](https://github.com/remqes/Zadanie2/blob/master/MNzadania/README_dev.md)
+[README_prod.md](https://github.com/remqes/Zadanie2/blob/master/MNzadania/README_prod.md)
+[README_stack.md](https://github.com/remqes/Zadanie2/blob/master/MNzadania/README_stack.md)
