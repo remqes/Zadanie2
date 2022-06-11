@@ -13,7 +13,7 @@ Zbudowanie oraz dodanie obrazów do repozytorium docker.hub
 `$ docker push michalnurz/labox:zaddwa-api`
 
 
-![docker-compose-1](/images/docker_compose)
-![docker-compose-2](/images/docker_compose_2)
-![docker-compose-3](/images/docker_compose_3)
-![docker-compose-4](/images/docker_compose_view)
+![docker-compose-1](/MNzadania/images/docker_compose)
+![docker-compose-2](/MNzadania/images/docker_compose_2)
+![docker-compose-3](/MNzadania/images/docker_compose_3)
+![docker-compose-4](/MNzadania/images/docker_compose_view)
